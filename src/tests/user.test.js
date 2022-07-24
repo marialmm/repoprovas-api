@@ -51,7 +51,7 @@ describe("Sign In tests", () => {
         expect(response.body.token).not.toBeNull();
     });
 
-    it("Given and invalid email or password, should return status 422", async () => {
+    it("Given and invalid input, should return status 422", async () => {
         const login = {};
 
         const response = await supertest(app).post("/sign-in").send(login);

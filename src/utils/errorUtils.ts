@@ -1,4 +1,4 @@
-type AppError = "unauthorized" | "notFound" | "conflict";
+type AppError = "badRequest" | "unauthorized" | "notFound" | "conflict";
 
 export interface Error {
     type: AppError;
@@ -6,9 +6,17 @@ export interface Error {
 }
 
 export function errorTypeToStatusCode(type: AppError) {
+    if (type === "badRequest") return 400;
     if (type === "unauthorized") return 401;
     if (type === "notFound") return 404;
     if (type === "conflict") return 409;
+}
+
+export function badRequestError(message?: string) {
+    return {
+        type: "badRequest",
+        message,
+    };
 }
 
 export function unauthorizedError(message?: string): Error {

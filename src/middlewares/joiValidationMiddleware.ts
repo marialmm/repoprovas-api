@@ -9,6 +9,7 @@ export default function validateJoi(schema: ObjectSchema) {
             res.status(422).send(
                 validation.error.details.map((detail) => detail.message)
             );
+            return;
         }
 
         next();
