@@ -16,7 +16,7 @@ describe("Post test tests", () => {
             Authorization: `Bearer ${token}`,
         };
 
-        const testData = await testFactory.createTestData();
+        const testData = testFactory.createTestData();
 
         const response = await supertest(app)
             .post("/test")
@@ -29,8 +29,61 @@ describe("Post test tests", () => {
             where: { name: testData.name },
         });
 
-        expect({ name: testData.name, pdfUrl: testData.pdfUrl }).toEqual(
-            {name: test.name, pdfUrl: test.pdfUrl}
-        );
+        expect({ name: testData.name, pdfUrl: testData.pdfUrl }).toEqual({
+            name: test.name,
+            pdfUrl: test.pdfUrl,
+        });
     });
+
+    it("Given an invalid token, should return 401", async () => {
+        const testData = testFactory.createTestData();
+        const header = {
+            Authorization: `Bearer invalidtoken`,
+        };
+
+        const response = await supertest(app)
+            .post("/test")
+            .set(header)
+            .send(testData);
+
+        expect(response.statusCode).toEqual(401);
+    });
+
+    it("Given an invalid category id, should return 404", async () => {
+        const token = await userFactory.createToken();
+        const header = {
+            Authorization: `Bearer ${token}`,
+        };
+
+        const testData = testFactory.createTestData();
+        testData.categoryId = 0;
+
+        const response = await supertest(app)
+            .post("/test")
+            .set(header)
+            .send(testData);
+
+        expect(response.statusCode).toEqual(404);
+    });
+
+    it("Given an incorrect relation teacher id/discipline id, should return 400", async () => {
+        const token = await userFactory.createToken();
+        const header = {
+            Authorization: `Bearer ${token}`,
+        };
+
+        const testData = testFactory.createTestData();
+        testData.teacherId = 2;
+
+        const response = await supertest(app)
+            .post("/test")
+            .set(header)
+            .send(testData);
+
+        expect(response.statusCode).toEqual(400);
+    });
+});
+
+afterAll(async () => {
+    await prisma.$disconnect();
 });

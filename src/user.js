@@ -1,8 +1,8 @@
 import supertest from "supertest";
 
-import app from "../index.js";
-import prisma from "../config/database.js";
-import * as userFactory from "./factories/userFactory.js";
+import app from "./index.js";
+import prisma from "./config/database.js";
+import * as userFactory from "./tests/factories/userFactory.js";
 
 beforeEach(async () => {
     await prisma.$executeRaw`TRUNCATE TABLE users;`;
