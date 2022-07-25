@@ -46,5 +46,7 @@ export async function getTestsGroupByDiscipline(){
 }
 
 export async function getTestsGroupByTeacher(){
+    const tests = await testRespository.getTestsGroupByTeacher();
 
+    return tests;
 }

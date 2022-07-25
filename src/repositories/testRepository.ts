@@ -1,5 +1,6 @@
 import { Test } from "@prisma/client";
 import prisma from "../config/database.js";
+import testRouter from "../routers/testRouter.js";
 
 type CreateTestData = Omit<Test, "id">;
 
@@ -42,5 +43,39 @@ export async function getTestsGroupByDiscipline() {
         },
     });
 
+    return tests;
+}
+
+export async function getTestsGroupByTeacher() {
+    const tests = await prisma.teachersDisciplines.findMany({
+        select: {
+            id: true,
+            teacher: {
+                select: {
+                    id: true,
+                    name: true,
+                },
+            },
+            discipline: {
+                select: {
+                    id: true,
+                    name: true,
+                },
+            },
+            tests: {
+                select: {
+                    id: true,
+                    name: true,
+                    pdfUrl: true,
+                    category: {
+                        select: {
+                            id: true,
+                            name: true,
+                        },
+                    },
+                },
+            },
+        },
+    });
     return tests;
 }
