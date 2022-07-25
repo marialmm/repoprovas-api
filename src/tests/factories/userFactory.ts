@@ -28,3 +28,17 @@ export async function createUser(login: Login) {
         },
     });
 }
+
+export async function createToken() {
+    const login = createLogin();
+    await createUser(login);
+
+    const user = await prisma.user.findFirst({
+        where: { email: login.email },
+    });
+
+    const SECRET = process.env.JWT_SECRET_KEY;
+    const config = { expiresIn: 60 * 60 * 24 * 7 };
+    const token = jwt.sign({ id: user.id }, SECRET, config);
+    return token;
+}

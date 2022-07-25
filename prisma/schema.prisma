@@ -71,4 +71,6 @@ model Test {
   categoryId          Int
   teacherDiscipline   TeachersDisciplines @relation(fields: [teacherDisciplineId], references: [id])
   teacherDisciplineId Int
+
+  @@map("tests")
 }

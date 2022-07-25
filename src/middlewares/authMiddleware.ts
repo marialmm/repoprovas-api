@@ -25,7 +25,7 @@ export async function validateToken(
         const { userId } = jwt.verify(token, SECRET) as { userId: number };
 
         const flag = await checkUserExists(userId);
-        if (!flag) {
+        if (flag !== true) {
             return;
         }
 
@@ -42,7 +42,6 @@ async function checkUserExists(userId: number) {
 
     if (!user) {
         throw unauthorizedError("User doesn't exist");
-        return false;
     }
 
     return true;
