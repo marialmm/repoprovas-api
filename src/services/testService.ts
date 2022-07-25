@@ -38,3 +38,13 @@ async function getTeacherDisciplineId(teacherId: number, disciplineId: number) {
 
     return relation.id;
 }
+
+export async function getTestsGroupByDiscipline(){
+    const tests = await testRespository.getTestsGroupByDiscipline();
+
+    return tests;
+}
+
+export async function getTestsGroupByTeacher(){
+
+}

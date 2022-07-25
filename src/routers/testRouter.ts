@@ -8,5 +8,6 @@ import { validateToken } from "../middlewares/authMiddleware.js";
 const testRouter = Router();
 
 testRouter.post("/test", validateJoi(testSchema), validateToken, testController.createTest)
+testRouter.get("/tests", validateToken, testController.getTests)
 
 export default testRouter;
