@@ -7,3 +7,8 @@ export async function getById(id: number) {
 
     return category;
 }
+
+export async function getAll(){
+    const categories = await prisma.category.findMany();
+    return categories;
+}

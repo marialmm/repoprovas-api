@@ -14,7 +14,7 @@ export async function getTestsGroupByDiscipline() {
         include: {
             disciplines: {
                 include: {
-                    teachersDiscipline: {
+                    teacherDisciplines: {
                         select: {
                             id: true,
                             discipline: {
@@ -32,11 +32,7 @@ export async function getTestsGroupByDiscipline() {
                                     id: true,
                                     name: true,
                                     pdfUrl: true,
-                                    category: {
-                                        select: {
-                                            name: true,
-                                        },
-                                    },
+                                    category: true,
                                 },
                             },
                         },
