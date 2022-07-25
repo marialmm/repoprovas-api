@@ -121,6 +121,25 @@ describe("Get test tests", () => {
         expect(response.body.tests).toEqual(tests);
     });
 
+    it("Given a correct query string, shoul return tests by teachers and status 200", async () => {
+        const token = await userFactory.createToken();
+        const header = {
+            Authorization: `Bearer ${token}`,
+        };
+
+        const testData = testFactory.createTestData();
+        await testFactory.createNewTest(testData);
+        
+        const response = await supertest(app).get("/tests?groupBy=teachers").set(header)
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body.tests).not.toBeUndefined();
+
+        const tests = await testFactory.getTestsByTeacher();
+
+        expect(response.body.tests).toEqual(tests);
+    })
+
     it("Given an invalid token, should return 401", async () => {
         const header = {
             Authorization: `Bearer invalidToken`,
